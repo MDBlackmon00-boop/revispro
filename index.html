@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Revis Pro is a B2B sales CRM for teams that need a clean pipeline without enterprise bloat.">
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#0A0B1E">
   <link rel="canonical" href="https://revispro.com/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta property="og:site_name" content="Revis Pro">
@@ -23,119 +23,898 @@
   <meta name="twitter:title" content="Revis Pro LLC · B2B sales CRM">
   <meta name="twitter:description" content="Revis Pro is a B2B sales CRM for teams that need a clean pipeline without enterprise bloat.">
   <title>Revis Pro LLC · B2B sales CRM</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap">
-  <link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+@property --bg { syntax: '<color>'; inherits: true; initial-value: #0A0B1E; }
+@property --fg { syntax: '<color>'; inherits: true; initial-value: #EEEDFF; }
+@property --muted { syntax: '<color>'; inherits: true; initial-value: #A4A6D4; }
+@property --line { syntax: '<color>'; inherits: true; initial-value: rgba(164,166,212,.18); }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #948DFF; }
+@property --signal-text { syntax: '<color>'; inherits: true; initial-value: #FFB23F; }
+@property --brand-ink { syntax: '<color>'; inherits: true; initial-value: #EEEDFF; }
+
+/* One committed look: night-ink ground that turns to lavender paper mid-page, then back. */
+:root {
+  color-scheme: dark;
+  --bg: #0A0B1E;
+  --fg: #EEEDFF;
+  --muted: #A4A6D4;
+  --line: rgba(164,166,212,.18);
+  --accent: #948DFF;
+  --signal-text: #FFB23F;
+  --brand-ink: #EEEDFF;
+  --indigo: #4F46E5;
+  --amber: #FFB23F;
+  --ok: #34D399;
+  --f-display: "Anybody", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --f-body: "Hanken Grotesk", "Helvetica Neue", Helvetica, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --gutter: clamp(16px, 4vw, 48px);
+  --maxw: 1240px;
+  transition: --bg .7s ease, --fg .7s ease, --muted .7s ease, --line .7s ease, --accent .7s ease, --signal-text .7s ease, --brand-ink .7s ease;
+}
+:root[data-tone="light"] {
+  color-scheme: light;
+  --bg: #F2F1FA;
+  --fg: #11122E;
+  --muted: #55587F;
+  --line: rgba(17,18,46,.13);
+  --accent: #4338CA;
+  --signal-text: #9A5B00;
+  --brand-ink: #14213D;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.55;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+#field { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; transition: opacity .8s ease; }
+
+/* ---------- nav ---------- */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding-top: env(safe-area-inset-top, 0px); transition: background-color .3s, border-color .3s; border-bottom: 1px solid transparent; }
+.nav.scrolled { background: color-mix(in srgb, var(--bg) 80%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom-color: var(--line); }
+.nav-in { max-width: var(--maxw); margin: 0 auto; padding: 12px var(--gutter); display: flex; align-items: center; gap: 32px; }
+/* Logo: Signal Board. An R lit on a departure-board dot grid; the amber dot is the next move. */
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-family: var(--f-mono); font-weight: 500; font-size: 16px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand-ink); line-height: 1; }
+.mark { width: 32px; height: 32px; border-radius: 7px; background: #11122E; box-shadow: 0 0 0 1px #2A2D68; flex: none; display: block; }
+.mk { display: block; width: 100%; height: 100%; }
+.mk .off { fill: #FFFFFF; opacity: .14; }
+.mk .lit { fill: #FFFFFF; }
+.mk .lit circle { animation: lite .45s ease-out both; animation-delay: calc(var(--i) * 45ms + 250ms); }
+.mk .amb { fill: #FFB23F; animation: lite .45s ease-out 1.08s both, glow 2.6s ease-in-out 1.6s infinite; }
+.brand:hover .mk .lit circle { animation-name: relite; }
+@keyframes lite { from { opacity: .12; } to { opacity: 1; } }
+@keyframes relite { from { opacity: .12; } to { opacity: 1; } }
+@keyframes glow { 50% { opacity: .5; } }
+.nav-links { display: flex; gap: 26px; margin-left: auto; }
+.nav-links a { text-decoration: none; font-size: 15px; color: var(--muted); transition: color .2s; padding: 10px 0; }
+.nav-links a:hover { color: var(--fg); }
+.nav .btn { min-height: 42px; font-size: 15px; padding: 0 18px; }
+.progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--amber); transform-origin: 0 50%; transform: scaleX(0); }
+@media (max-width: 760px) { .nav-links { display: none; } .nav .btn { margin-left: auto; } }
+
+/* ---------- shared ---------- */
+main { position: relative; z-index: 1; padding-inline: var(--gutter); }
+.in { max-width: var(--maxw); margin-inline: auto; }
+.eyebrow { font-family: var(--f-mono); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.eyebrow .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--amber); vertical-align: middle; margin: 0 .9em; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .55em; min-height: 50px; padding: 0 24px; border-radius: 999px; font: 600 16px/1 var(--f-body); text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform .25s cubic-bezier(.2,.8,.2,1), background-color .2s, color .2s, border-color .2s; white-space: nowrap; }
+.btn .arr { display: inline-block; transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+.btn:hover .arr { transform: translate(2px,-2px); }
+.btn-primary { background: var(--indigo); color: #fff; }
+.btn-primary:hover { background: #5A51F2; transform: translateY(-2px); }
+.btn-ghost { color: var(--fg); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--fg); }
+.btn-ghost:hover .arr.down { transform: translateY(3px); }
+.btn-ink { background: #11122E; color: #fff; }
+.btn-ink:hover { background: #23255A; transform: translateY(-2px); }
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: clamp(580px, 90svh, 880px); display: grid; align-items: center; padding-block: 118px 96px; box-sizing: border-box; }
+.hero-in { position: relative; max-width: var(--maxw); margin-inline: auto; width: 100%; will-change: transform; }
+.h-hero { font-family: var(--f-display); font-weight: 820; font-stretch: 68%; font-size: clamp(50px, 8.8vw, 134px); line-height: .9; letter-spacing: -.012em; margin: 22px 0 28px; text-wrap: balance; }
+.h-hero .l { display: block; }
+.h-hero .l2 { color: var(--amber); }
+.w { display: inline-block; animation: rise 1s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 80ms + 80ms); }
+@keyframes rise { from { opacity: .12; transform: translateY(.28em) rotate(1.5deg); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+.lede { font-size: clamp(18px, 1.55vw, 21px); line-height: 1.5; color: var(--muted); max-width: 33ch; margin: 0 0 34px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.hero-low { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 470px); gap: 40px; align-items: start; }
+.floats { position: relative; width: 100%; height: 270px; margin-top: -6px; }
+.fl { position: absolute; will-change: transform; }
+.fl-in { background: rgba(21,23,60,.78); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(164,166,212,.2); border-radius: 14px; padding: 14px 16px; box-shadow: 0 24px 50px -24px rgba(0,0,0,.8); animation: bob 7s ease-in-out infinite; animation-delay: var(--dl, 0s); color: #EEEDFF; }
+@keyframes bob { 50% { transform: translateY(-9px); } }
+.fl-k { display: flex; align-items: center; gap: 8px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #A4A6D4; margin-bottom: 6px; }
+.fl strong { display: block; font-weight: 600; font-size: 15.5px; line-height: 1.35; }
+.fl-a { top: 0; left: 36px; width: 250px; }
+.fl-b { top: 64px; right: 0; width: 256px; }
+.fl-c { top: 178px; left: 0; width: 290px; }
+.fl-num { display: flex; align-items: baseline; gap: 10px; }
+.fl-num b { font-family: var(--f-display); font-weight: 800; font-stretch: 85%; font-size: 34px; line-height: 1; }
+.chip-up { white-space: nowrap; font-family: var(--f-mono); font-size: 12px; color: var(--ok); background: rgba(52,211,153,.12); border: 1px solid rgba(52,211,153,.35); border-radius: 999px; padding: 3px 8px; }
+.spark { display: block; width: 100%; height: 34px; margin-top: 10px; }
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); animation: ping 1.8s ease-out infinite; flex: none; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255,178,63,.6); } 100% { box-shadow: 0 0 0 10px rgba(255,178,63,0); } }
+.move-dot { width: 7px; height: 7px; border-radius: 2px; background: #948DFF; transform: rotate(45deg); flex: none; }
+@media (max-width: 980px) { .floats { display: none; } .hero-low { grid-template-columns: minmax(0, 1fr); } }
+
+.cue { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.cue i { position: relative; display: block; width: 1px; height: 44px; background: var(--line); overflow: hidden; }
+.cue i::after { content: ""; position: absolute; left: -1px; top: -12px; width: 3px; height: 12px; background: var(--amber); animation: drip 1.9s ease-in-out infinite; }
+@keyframes drip { to { top: 44px; } }
+
+/* ---------- story ---------- */
+.story { position: relative; height: 470svh; }
+.stage {
+  position: sticky; top: env(safe-area-inset-top, 0px);
+  height: calc(100svh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  max-width: var(--maxw); margin-inline: auto; box-sizing: border-box;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4.5vw, 72px); align-items: center;
+  padding-block: 88px 36px;
+}
+.chapters { display: grid; }
+.chap { grid-area: 1 / 1; opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .6s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
+.chap.on { opacity: 1; transform: none; pointer-events: auto; }
+.chap .num { color: var(--amber); margin-right: .7em; }
+.chap h2 { font-family: var(--f-display); font-weight: 750; font-stretch: 84%; font-size: clamp(26px, 3vw, 44px); line-height: 1.04; letter-spacing: -.005em; margin: 14px 0 16px; text-wrap: balance; }
+.chap p.body { color: var(--muted); max-width: 44ch; margin: 0; }
+.ticks { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin-top: clamp(22px, 3vw, 38px); max-width: 430px; }
+.tick { appearance: none; background: none; border: 0; padding: 6px 0 0; min-height: 44px; text-align: left; color: var(--muted); font: 500 11px/1.2 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; cursor: pointer; display: flex; flex-direction: column; gap: 9px; justify-content: flex-start; }
+.tick i { display: block; height: 3px; border-radius: 2px; background: var(--line); transition: background-color .35s; }
+.tick.on { color: var(--fg); }
+.tick.on i { background: var(--amber); }
+.board-fig { margin: 0; display: grid; gap: 12px; justify-items: center; }
+.fit { position: relative; width: 100%; max-width: 720px; aspect-ratio: 600 / 440; }
+.board-fig figcaption { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .06em; color: var(--muted); }
+
+.board {
+  --b-bg: #10122F; --b-line: #262A60; --b-card: #1A1D48; --b-cardline: #2F3372; --b-fg: #EEEDFF; --b-mute: #9EA1D2;
+  position: absolute; left: 0; top: 0; width: 600px; height: 440px; transform-origin: 0 0;
+  border-radius: 18px; background: var(--b-bg); border: 1px solid var(--b-line); overflow: hidden;
+  box-shadow: 0 40px 90px -34px rgba(79,70,229,.65), inset 0 1px 0 rgba(255,255,255,.05);
+  color: var(--b-fg); font-family: var(--f-body); font-size: 13px; line-height: 1.3;
+}
+.bh { position: absolute; left: 14px; right: 14px; top: 9px; height: 30px; }
+.hs { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; opacity: 0; transition: opacity .35s ease; font-size: 13.5px; }
+.hs b { font-weight: 700; }
+.hs em { font-style: normal; color: var(--b-mute); margin-left: 7px; }
+.board[data-state="0"] .hs[data-s="0"], .board[data-state="1"] .hs[data-s="1"], .board[data-state="2"] .hs[data-s="2"], .board[data-state="3"] .hs[data-s="3"] { opacity: 1; }
+.bmono { font-family: var(--f-mono); font-size: 11.5px; color: var(--b-mute); }
+.tagm { font-family: var(--f-mono); font-size: 11px; color: var(--b-mute); border: 1px dashed #3C4084; border-radius: 6px; padding: 3px 8px; }
+.alert { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,178,63,.13); color: #FFC56E; border: 1px solid rgba(255,178,63,.45); border-radius: 999px; padding: 4px 11px; font-weight: 600; font-size: 12.5px; }
+.bdiv { position: absolute; left: 0; right: 0; top: 48px; height: 1px; background: var(--b-line); }
+.colh { position: absolute; top: 60px; width: 132px; display: flex; justify-content: space-between; align-items: baseline; font-family: var(--f-mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--b-mute); opacity: 0; transition: opacity .35s; }
+.colh b { font-weight: 500; color: var(--b-fg); letter-spacing: 0; }
+.board[data-state="1"] .colh { opacity: 1; }
+
+.card {
+  position: absolute; left: 0; top: 0; box-sizing: border-box; width: 132px; height: 84px;
+  border-radius: 11px; background: var(--b-card); border: 1px solid var(--b-cardline); overflow: hidden;
+  transform-origin: 50% 50%; will-change: transform;
+  box-shadow: 0 10px 20px -12px rgba(0,0,0,.7);
+  transition: background-color .45s ease, border-color .45s ease, border-radius .45s ease, box-shadow .45s ease;
+}
+.card.top { z-index: 2; }
+.card.risk { z-index: 3; }
+.face { position: absolute; inset: 0; box-sizing: border-box; opacity: 0; transition: opacity .3s ease; pointer-events: none; }
+.f-card { padding: 11px 12px; display: flex; flex-direction: column; gap: 3px; }
+.nm { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.f-card .am { font-family: var(--f-mono); font-size: 12.5px; }
+.m-stage, .m-note { font-size: 11.5px; color: var(--b-mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.board[data-state="0"] .m-note { display: none; }
+.board:not([data-state="0"]) .m-stage { display: none; }
+.card.risk .m-note { color: #FFC56E; }
+.f-row { display: grid; grid-template-columns: 26px minmax(0,1fr) auto; align-items: center; gap: 12px; padding: 0 14px; }
+.rk { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-mono); font-size: 12px; background: #292D68; }
+.card.risk .rk { background: var(--amber); color: #1A1308; }
+.rw { display: flex; flex-direction: column; min-width: 0; gap: 1px; }
+.ac { font-size: 12.5px; color: var(--b-mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.f-row .am { font-family: var(--f-mono); font-size: 13px; }
+.f-chip { display: flex; align-items: center; justify-content: center; gap: 6px; font-family: var(--f-mono); font-size: 11.5px; }
+.f-chip span { color: var(--b-mute); }
+.f-pill { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px; }
+.f-pill .am { font-family: var(--f-mono); font-size: 12px; color: #FFC56E; flex: none; }
+.board[data-state="0"] .f-card, .board[data-state="1"] .f-card,
+.board[data-state="2"] .card.top .f-row,
+.board[data-state="2"] .card:not(.top) .f-chip,
+.board[data-state="3"] .card.risk .f-pill { opacity: 1; }
+.board:not([data-state="0"]) .card.risk { border-color: rgba(255,178,63,.85); background: #271F3C; box-shadow: 0 0 0 3px rgba(255,178,63,.12), 0 10px 20px -12px rgba(0,0,0,.7); }
+.board[data-state="3"] .card:not(.risk) { border-color: transparent; border-radius: 5px; box-shadow: none; }
+.board[data-state="3"] .card[data-stage="commit"]:not(.risk) { background: #B8B3FF; }
+.board[data-state="3"] .card[data-stage="negotiation"]:not(.risk) { background: #8880FF; }
+.board[data-state="3"] .card[data-stage="proposal"]:not(.risk) { background: #5B51EE; }
+.board[data-state="3"] .card[data-stage="discovery"]:not(.risk) { background: #3C359E; }
+.board[data-state="3"] .card.risk { border-style: dashed; background: #1A1D48; box-shadow: none; }
+
+.fc > * { position: absolute; opacity: 0; transition: opacity .4s ease; }
+.board[data-state="3"] .fc > * { opacity: 1; }
+.fc-top { left: 14px; top: 62px; display: flex; align-items: center; gap: 12px; }
+.fc-val { font-family: var(--f-display); font-weight: 800; font-stretch: 85%; font-size: 46px; line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.fc-sub { left: 14px; top: 118px; }
+.fc-leg { top: 240px; display: flex; flex-direction: column; gap: 3px; padding-left: 7px; border-left: 1px solid #3A3E80; }
+.fc-leg span { font-family: var(--f-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--b-mute); }
+.fc-leg b { font-family: var(--f-mono); font-weight: 500; font-size: 12px; }
+.fc-held { left: 14px; top: 302px; font-family: var(--f-mono); font-size: 11.5px; color: #FFC56E; }
+
+@media (max-width: 860px) {
+  .story { height: 420svh; }
+  .stage { grid-template-columns: minmax(0,1fr); align-content: center; gap: 18px; padding-block: 76px 20px; }
+  .chap h2 { font-size: clamp(23px, 6.2vw, 32px); margin: 10px 0 10px; }
+  .chap p.body { font-size: 15.5px; }
+  .ticks { margin-top: 16px; }
+}
+@media (max-width: 860px) and (max-height: 760px) { .chap p.body { display: none; } }
+
+/* ---------- about ---------- */
+.about { padding-block: clamp(24px, 4vw, 64px) clamp(100px, 12vw, 170px); }
+.mq { margin-inline: calc(var(--gutter) * -1); overflow: hidden; display: grid; gap: .06em; font-family: var(--f-display); font-weight: 850; font-stretch: 68%; font-size: clamp(54px, 10.5vw, 160px); line-height: 1.02; text-transform: uppercase; letter-spacing: .004em; }
+.mq-track { display: flex; width: max-content; white-space: nowrap; will-change: transform; }
+.mq-track > span { display: inline-flex; align-items: center; gap: .32em; padding-right: .32em; }
+.mq-row.o .mq-track { color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
+.sep { display: inline-block; width: .15em; height: .15em; background: var(--amber); transform: rotate(45deg); }
+.about-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(28px, 5vw, 84px); margin-top: clamp(60px, 8vw, 116px); align-items: start; }
+.h-sec { font-family: var(--f-display); font-weight: 800; font-stretch: 78%; font-size: clamp(40px, 5.6vw, 80px); line-height: .96; letter-spacing: -.01em; margin: 16px 0 0; text-wrap: balance; }
+.fill { font-size: clamp(20px, 2vw, 27px); line-height: 1.45; margin: 0; max-width: 32em; }
+.fill.armed .wd { color: color-mix(in srgb, var(--fg) 22%, transparent); transition: color .35s ease; }
+.fill.armed .wd.lit { color: var(--fg); }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; margin: 44px 0 0; border-top: 1px solid var(--line); padding-top: 22px; }
+.facts dt { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 6px 0 0; font-weight: 600; font-size: 16px; line-height: 1.35; }
+@media (max-width: 860px) { .about-grid { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 520px) { .facts { grid-template-columns: minmax(0,1fr); gap: 14px; } }
+
+/* ---------- plans ---------- */
+.plans { padding-block: clamp(30px, 5vw, 70px) clamp(110px, 14vw, 190px); }
+.plans-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 48px; margin-bottom: clamp(44px, 6vw, 76px); }
+.plans-head p.sub { max-width: 34ch; color: var(--muted); margin: 0; font-size: 18px; }
+.plan-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; align-items: start; }
+.plan {
+  --lift: 0px;
+  position: relative; display: flex; flex-direction: column; gap: 24px; padding: 28px;
+  background: #FFFFFF; color: #11122E; border: 1px solid rgba(17,18,46,.1); border-radius: 18px;
+  transform: translateY(var(--lift)); transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  box-shadow: 0 1px 0 rgba(17,18,46,.04);
+}
+.plan:hover { transform: translateY(calc(var(--lift) - 6px)); box-shadow: 0 30px 60px -30px rgba(17,18,46,.4); }
+.plan h3 { font-family: var(--f-display); font-weight: 780; font-stretch: 84%; font-size: 32px; line-height: 1; margin: 0; }
+.plan .tl { margin: 8px 0 0; color: #55587F; }
+.plan .tag { position: absolute; top: 24px; right: 24px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; background: var(--amber); color: #1A1308; border-radius: 999px; padding: 5px 10px; }
+.plan.pop { --lift: -14px; background: #11122E; color: #EEEDFF; border-color: #11122E; box-shadow: 0 40px 80px -40px rgba(79,70,229,.7); }
+.plan.pop .tl { color: #A4A6D4; }
+.lanes { display: block; width: 100%; height: 72px; }
+.lanes .rail { stroke: rgba(17,18,46,.12); stroke-width: 1; }
+.lanes .flow { stroke: var(--indigo); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0 18; fill: none; animation: flow var(--d, 3s) linear infinite; animation-delay: var(--dl, 0s); }
+.plan.pop .lanes .rail { stroke: rgba(238,237,255,.16); }
+.plan.pop .lanes .flow { stroke: var(--amber); }
+.plan:hover .lanes .flow { animation-duration: calc(var(--d, 3s) * .45); }
+@keyframes flow { to { stroke-dashoffset: -36; } }
+.price { display: flex; align-items: baseline; gap: 6px; }
+.price .amt { font-family: var(--f-display); font-weight: 820; font-stretch: 80%; font-size: 66px; line-height: .9; letter-spacing: -.02em; }
+.price .per { font-family: var(--f-mono); font-size: 14px; color: #55587F; }
+.plan.pop .price .per { color: #A4A6D4; }
+.plan .btn { width: 100%; box-sizing: border-box; }
+.fine { margin: 34px 0 0; color: var(--muted); font-size: 15px; }
+.fine a { color: var(--accent); }
+@media (max-width: 880px) { .plan-grid { grid-template-columns: minmax(0,1fr); max-width: 520px; } .plan.pop { --lift: 0px; } }
+
+/* ---------- close ---------- */
+.close { padding-block: clamp(120px, 15vw, 220px) clamp(90px, 11vw, 150px); }
+.h-close { font-family: var(--f-display); font-weight: 850; font-stretch: 100%; font-size: clamp(44px, 8.4vw, 126px); line-height: .92; letter-spacing: -.015em; margin: 20px 0 0; }
+.h-close .ln { display: block; }
+.h-close .ln2 { color: var(--amber); }
+@media (min-width: 760px) { .h-close .ln { white-space: nowrap; } }
+@media (max-width: 759px) { .h-close { font-stretch: 78%; } }
+.close-row { display: flex; flex-wrap: wrap; align-items: center; gap: 22px 44px; margin-top: 52px; }
+.btn-big { min-height: 62px; padding: 0 30px; font-size: 18px; }
+.reach { display: flex; flex-direction: column; gap: 10px; }
+.reach p { margin: 0; color: var(--muted); }
+.mail { display: inline-flex; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 5px 5px 5px 18px; max-width: 100%; box-sizing: border-box; }
+.mail a { font-family: var(--f-mono); font-size: 15px; text-decoration: none; overflow-wrap: anywhere; }
+.mail a:hover { color: var(--accent); }
+.copy { appearance: none; border: 0; background: color-mix(in srgb, var(--fg) 10%, transparent); color: var(--fg); font: 600 13px/1 var(--f-body); border-radius: 999px; min-height: 36px; padding: 0 14px; cursor: pointer; flex: none; }
+.copy:hover { background: color-mix(in srgb, var(--fg) 18%, transparent); }
+
+/* ---------- footer ---------- */
+.foot { border-top: 1px solid var(--line); padding-block: 44px 40px; }
+.foot-in { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 28px 48px; }
+.foot p { margin: 12px 0 0; color: var(--muted); max-width: 32ch; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 8px 26px; align-items: center; }
+.foot nav a { text-decoration: none; color: var(--muted); font-size: 15px; padding: 8px 0; }
+.foot nav a:hover { color: var(--fg); }
+.legal { margin-top: 36px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .w, .fl-in, .pulse, .lanes .flow, .cue i::after, .mk .lit circle, .mk .amb { animation: none !important; }
+  .card, .chap { transition: none; }
+}
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="#top" aria-label="Revis Pro home">
-        <span class="brand-mark" aria-hidden="true">R</span>
-        <span>Revis Pro</span>
-      </a>
-      <a class="nav-cta nav-cta-mobile" href="https://revispro.whop.site/invite">Get started <span aria-hidden="true">↗</span></a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
-        <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
-      </button>
-      <nav id="site-nav" aria-label="Primary navigation">
-        <a href="#product">Product</a>
-        <a href="#plans">Plans</a>
-        <a href="#contact">Contact</a>
-        <a class="legal-nav-link" href="terms.html">Legal</a>
-        <a class="nav-cta nav-cta-desktop" href="https://revispro.whop.site/invite">Get started <span aria-hidden="true">↗</span></a>
-      </nav>
+<canvas id="field" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Revis Pro home"><span class="mark" aria-hidden="true"><svg class="mk" viewBox="0 0 64 64" aria-hidden="true"><g class="off"><circle cx="16" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="32" cy="8" r="3"/><circle cx="40" cy="8" r="3"/><circle cx="48" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><circle cx="24" cy="16" r="3"/><circle cx="32" cy="16" r="3"/><circle cx="40" cy="16" r="3"/><circle cx="48" cy="16" r="3"/><circle cx="16" cy="24" r="3"/><circle cx="24" cy="24" r="3"/><circle cx="32" cy="24" r="3"/><circle cx="40" cy="24" r="3"/><circle cx="48" cy="24" r="3"/><circle cx="16" cy="32" r="3"/><circle cx="24" cy="32" r="3"/><circle cx="32" cy="32" r="3"/><circle cx="40" cy="32" r="3"/><circle cx="48" cy="32" r="3"/><circle cx="16" cy="40" r="3"/><circle cx="24" cy="40" r="3"/><circle cx="32" cy="40" r="3"/><circle cx="40" cy="40" r="3"/><circle cx="48" cy="40" r="3"/><circle cx="16" cy="48" r="3"/><circle cx="24" cy="48" r="3"/><circle cx="32" cy="48" r="3"/><circle cx="40" cy="48" r="3"/><circle cx="48" cy="48" r="3"/><circle cx="16" cy="56" r="3"/><circle cx="24" cy="56" r="3"/><circle cx="32" cy="56" r="3"/><circle cx="40" cy="56" r="3"/><circle cx="48" cy="56" r="3"/></g><g class="lit"><circle cx="16" cy="8" r="3.4" style="--i:0"/><circle cx="16" cy="16" r="3.4" style="--i:1"/><circle cx="16" cy="24" r="3.4" style="--i:2"/><circle cx="16" cy="32" r="3.4" style="--i:3"/><circle cx="16" cy="40" r="3.4" style="--i:4"/><circle cx="16" cy="48" r="3.4" style="--i:5"/><circle cx="16" cy="56" r="3.4" style="--i:6"/><circle cx="24" cy="8" r="3.4" style="--i:7"/><circle cx="32" cy="8" r="3.4" style="--i:8"/><circle cx="40" cy="8" r="3.4" style="--i:9"/><circle cx="48" cy="16" r="3.4" style="--i:10"/><circle cx="48" cy="24" r="3.4" style="--i:11"/><circle cx="40" cy="32" r="3.4" style="--i:12"/><circle cx="32" cy="32" r="3.4" style="--i:13"/><circle cx="24" cy="32" r="3.4" style="--i:14"/><circle cx="32" cy="40" r="3.4" style="--i:15"/><circle cx="40" cy="48" r="3.4" style="--i:16"/></g><circle class="amb" cx="48" cy="56" r="4.4"/></svg></span><span>Revis Pro</span></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#product">Product</a>
+      <a href="#plans">Plans</a>
+      <a href="#contact">Contact</a>
+      <a href="terms.html">Legal</a>
+    </nav>
+    <a class="btn btn-primary" href="https://revispro.whop.site/invite" target="_blank" rel="noopener">Get started <span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+  <div class="progress" id="prog" aria-hidden="true"></div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top" data-tone="dark">
+    <div class="hero-in" id="heroIn">
+      <p class="eyebrow">B2B sales CRM<span class="dot" aria-hidden="true"></span>Plans from $39/mo</p>
+      <h1 class="h-hero">
+        <span class="sr">A cleaner pipeline. Sharper next moves.</span>
+        <span class="l" aria-hidden="true"><span class="w" style="--i:0">A</span> <span class="w" style="--i:1">cleaner</span> <span class="w" style="--i:2">pipeline.</span></span>
+        <span class="l l2" aria-hidden="true"><span class="w" style="--i:3">Sharper</span> <span class="w" style="--i:4">next</span> <span class="w" style="--i:5">moves.</span></span>
+      </h1>
+      <div class="hero-low">
+      <div>
+        <p class="lede">Revis Pro is the B2B sales CRM for teams that need a clean pipeline without enterprise bloat.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://revispro.whop.site/invite" target="_blank" rel="noopener">Get Revis Pro <span class="arr" aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="#product">Watch a pipeline get cleaner <span class="arr down" aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+
+      <div class="floats" aria-hidden="true">
+        <div class="fl fl-a" data-par=".10"><div class="fl-in" style="--dl:-1s">
+          <span class="fl-k"><i class="pulse"></i>Pipeline alert</span>
+          <strong>3 deals at risk this week</strong>
+        </div></div>
+        <div class="fl fl-b" data-par=".22"><div class="fl-in" style="--dl:-3.5s">
+          <span class="fl-k">Q3 forecast</span>
+          <div class="fl-num"><b>$482,000</b><span class="chip-up">↑ 18.4%</span></div>
+          <svg class="spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+            <polyline points="2,30 24,27 46,29 68,22 90,24 112,17 134,19 156,11 178,12 196,5" fill="none" stroke="#948DFF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <circle cx="196" cy="5" r="3" fill="#FFB23F"/>
+          </svg>
+        </div></div>
+        <div class="fl fl-c" data-par=".05"><div class="fl-in" style="--dl:-5s">
+          <span class="fl-k"><i class="move-dot"></i>Next move</span>
+          <strong>Book the pricing review with Kestrel Health</strong>
+        </div></div>
+      </div>
+      </div>
     </div>
-  </header>
+    <div class="cue" id="cue" aria-hidden="true"><span>Scroll</span><i></i></div>
+  </section>
 
-  <main id="top">
-    <section class="hero section">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-dot"></span> B2B sales CRM</p>
-          <h1>A cleaner pipeline.<br><span class="accent-text">Sharper next moves.</span></h1>
-          <p class="hero-lede">Revis Pro is the B2B sales CRM for teams that need a clean pipeline without enterprise bloat.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="https://revispro.whop.site/invite">Get Revis Pro <span aria-hidden="true">↗</span></a>
-            <a class="button button-secondary" href="mailto:contact@revispro.com">contact@revispro.com</a>
+  <!-- STORY -->
+  <section class="story" id="product" data-tone="dark" aria-label="Product">
+    <div class="stage" id="stage">
+      <div class="story-copy">
+        <div class="chapters">
+          <article class="chap on" data-c="0">
+            <p class="eyebrow">Your pipeline today</p>
+            <h2>Deals pile up. Signals get buried.</h2>
+            <p class="body">Quiet deals, missing next steps and hopeful close dates all look alike on a crowded board. Keep scrolling to watch Revis Pro sort this one out.</p>
+          </article>
+          <article class="chap" data-c="1">
+            <p class="eyebrow"><span class="num">01</span>Pipeline risk</p>
+            <h2>Surface deals that need attention before they become surprises.</h2>
+            <p class="body">Three deals here have gone quiet, lost their next step or slipped their close date. They move to the top of their stage instead of hiding in it.</p>
+          </article>
+          <article class="chap" data-c="2">
+            <p class="eyebrow"><span class="num">02</span>Ranked next moves</p>
+            <h2>Give every seller a practical, prioritized action to take next.</h2>
+            <p class="body">The board turns into a short list for today, ordered by what’s at stake. Deals that are on track stay out of the way.</p>
+          </article>
+          <article class="chap" data-c="3">
+            <p class="eyebrow"><span class="num">03</span>Usable forecast</p>
+            <h2>Build a forecast around the health of real opportunities—not noise.</h2>
+            <p class="body">The Q3 number comes from the eight healthy deals. The three at-risk deals are held out until they’re back on track.</p>
+          </article>
+        </div>
+        <nav class="ticks" aria-label="Story steps">
+          <button type="button" class="tick on" id="tick-0" data-t="0"><i></i>Today</button>
+          <button type="button" class="tick" id="tick-1" data-t="1"><i></i>Risk</button>
+          <button type="button" class="tick" id="tick-2" data-t="2"><i></i>Next moves</button>
+          <button type="button" class="tick" id="tick-3" data-t="3"><i></i>Forecast</button>
+        </nav>
+      </div>
+
+      <figure class="board-fig">
+        <div class="fit" id="fit">
+          <div class="board" id="board" data-state="0" role="img" aria-label="Sample pipeline board: eleven deals sorted into stages, three flagged at risk, then ranked into five next moves and a Q3 forecast of $482,000.">
+            <div class="bh">
+              <div class="hs" data-s="0"><span><b>Pipeline</b><em>11 open deals</em></span><span class="tagm">Unsorted</span></div>
+              <div class="hs" data-s="1"><span class="alert"><i class="pulse"></i>3 deals at risk this week</span><span class="bmono">Open pipeline $625,500</span></div>
+              <div class="hs" data-s="2"><span><b>Next moves</b><em>Ranked for today</em></span><span class="bmono">5 actions</span></div>
+              <div class="hs" data-s="3"><span><b>Q3 forecast</b><em>Healthy deals only</em></span><span class="bmono">3 held out</span></div>
+            </div>
+            <div class="bdiv"></div>
+            <div class="colh" style="left:12px"><span>Discovery</span><b>$96.5k</b></div>
+            <div class="colh" style="left:160px"><span>Proposal</span><b>$192.5k</b></div>
+            <div class="colh" style="left:308px"><span>Negotiation</span><b>$210.5k</b></div>
+            <div class="colh" style="left:456px"><span>Commit</span><b>$126k</b></div>
+            <div class="fc" id="fc">
+              <div class="fc-top"><span class="fc-val" id="fcval">$482,000</span><span class="chip-up">↑ 18.4%</span></div>
+              <div class="fc-sub bmono">Built from 8 healthy deals</div>
+              <div class="fc-leg" data-g="commit"><span>Commit</span><b>$126,000</b></div>
+              <div class="fc-leg" data-g="negotiation"><span>Negotiation</span><b>$177,000</b></div>
+              <div class="fc-leg" data-g="proposal"><span>Proposal</span><b>$125,000</b></div>
+              <div class="fc-leg" data-g="discovery"><span>Discovery</span><b>$54,000</b></div>
+              <div class="fc-held">Held out until healthy · $143,500</div>
+            </div>
           </div>
-          <p class="hero-note">Pipeline risk, ranked next moves, and a forecast your team can use.</p>
         </div>
-        <div class="hero-visual" role="img" aria-label="Revis Pro sales pipeline overview illustration">
-          <div class="window-bar"><span></span><span></span><span></span><b>Pipeline overview</b></div>
-          <div class="pipeline-head"><div><small>Q3 forecast</small><strong>$482,000</strong></div><span class="positive">↑ 18.4%</span></div>
-          <div class="risk-card"><span class="risk-icon">!</span><div><b>Pipeline needs attention</b><small>3 deals at risk this week</small></div><span class="arrow">→</span></div>
-          <div class="deal-list">
-            <div class="deal-row"><span class="deal-avatar avatar-indigo">AS</span><div class="deal-info"><b>Atlas Systems</b><small>Proposal · $86,000</small></div><span class="deal-pill pill-watch">Watch</span></div>
-            <div class="deal-row"><span class="deal-avatar avatar-cyan">NW</span><div class="deal-info"><b>Northwind Labs</b><small>Discovery · $42,500</small></div><span class="deal-pill pill-next">Next move</span></div>
-            <div class="deal-row"><span class="deal-avatar avatar-violet">MC</span><div class="deal-info"><b>Meridian Cloud</b><small>Negotiation · $128,000</small></div><span class="deal-pill pill-strong">On track</span></div>
-          </div>
-          <div class="visual-footer"><span>Recommended next moves</span><span class="visual-lines"><i></i><i></i><i></i></span></div>
-        </div>
-      </div>
-    </section>
+        <figcaption>Sample pipeline for illustration</figcaption>
+      </figure>
+    </div>
+  </section>
 
-    <section class="proof-strip" aria-label="Product focus">
-      <div class="container proof-grid">
-        <div><span class="proof-icon">◈</span><div><strong>See risk early</strong><small>Know where deals are slipping</small></div></div>
-        <div><span class="proof-icon">↗</span><div><strong>Prioritize next moves</strong><small>Focus the team on what matters</small></div></div>
-        <div><span class="proof-icon">⌁</span><div><strong>Forecast with confidence</strong><small>Turn activity into a clear view</small></div></div>
-      </div>
-    </section>
+  <!-- ABOUT -->
+  <section class="about" id="about" data-tone="light" aria-label="About Revis Pro">
+    <div class="mq" aria-hidden="true">
+      <div class="mq-row"><div class="mq-track">
+        <span>Clean pipeline<i class="sep"></i></span><span>Ranked next moves<i class="sep"></i></span><span>Usable forecast<i class="sep"></i></span>
+        <span>Clean pipeline<i class="sep"></i></span><span>Ranked next moves<i class="sep"></i></span><span>Usable forecast<i class="sep"></i></span>
+      </div></div>
+      <div class="mq-row o"><div class="mq-track">
+        <span>No enterprise bloat<i class="sep"></i></span><span>Built for operators<i class="sep"></i></span><span>Move fast<i class="sep"></i></span>
+        <span>No enterprise bloat<i class="sep"></i></span><span>Built for operators<i class="sep"></i></span><span>Move fast<i class="sep"></i></span>
+      </div></div>
+    </div>
 
-    <section class="section content-section" id="product">
-      <div class="container narrow-container">
-        <p class="eyebrow">What we build</p>
-        <h2>Sales clarity for operators who move fast.</h2>
-        <p class="section-intro">Revis Pro is a Wyoming LLC operating a B2B SaaS sales CRM for operators and small sales teams. It brings the signal that matters into one focused workspace—so your team can protect the pipeline, act on the right opportunity, and keep the forecast grounded in reality.</p>
-        <div class="feature-grid">
-          <article class="feature-card"><span class="feature-number">01</span><h3>Pipeline risk</h3><p>Surface deals that need attention before they become surprises.</p></article>
-          <article class="feature-card"><span class="feature-number">02</span><h3>Ranked next moves</h3><p>Give every seller a practical, prioritized action to take next.</p></article>
-          <article class="feature-card"><span class="feature-number">03</span><h3>Usable forecast</h3><p>Build a forecast around the health of real opportunities—not noise.</p></article>
-        </div>
+    <div class="in about-grid">
+      <div>
+        <p class="eyebrow">Why Revis Pro</p>
+        <h2 class="h-sec">Sales clarity for operators who move fast.</h2>
       </div>
-    </section>
+      <div>
+        <p class="fill" id="fill">Revis Pro is a B2B sales CRM for operators and small sales teams. It keeps the pipeline clean, gives every seller a clear next move, and builds the forecast from real opportunities. You get the parts of a CRM that change how you sell, without the enterprise bloat.</p>
+        <dl class="facts">
+          <div><dt>Built for</dt><dd>Operators and small sales teams</dd></div>
+          <div><dt>Plans from</dt><dd>$39 a month</dd></div>
+          <div><dt>Company</dt><dd>Revis Pro LLC, Wyoming</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
 
-    <section class="section plans-section" id="plans">
-      <div class="container plans-grid">
+  <!-- PLANS -->
+  <section class="plans" id="plans" data-tone="light" aria-label="Plans">
+    <div class="in">
+      <div class="plans-head">
         <div>
-          <p class="eyebrow">Simple plans</p>
-          <h2>Start focused.<br>Scale when ready.</h2>
-          <p class="section-intro">Straightforward options for teams building a more dependable sales motion.</p>
-          <a class="text-link" href="https://revispro.whop.site/invite">Get started with Revis Pro <span aria-hidden="true">→</span></a>
+          <p class="eyebrow">Plans</p>
+          <h2 class="h-sec">Start focused. Scale when ready.</h2>
         </div>
-        <div class="plan-list" aria-label="Revis Pro plans">
-          <div class="plan-row"><span><b>Starter</b><small>For focused sales work</small></span><strong>$39</strong><span class="per">/mo</span></div>
-          <div class="plan-row featured-plan"><span><b>Growth<span class="plan-badge">Popular</span></b><small>For a growing pipeline</small></span><strong>$79</strong><span class="per">/mo</span></div>
-          <div class="plan-row"><span><b>Team</b><small>For coordinated selling</small></span><strong>$129</strong><span class="per">/mo</span></div>
+        <p class="sub">Straightforward options for teams building a more dependable sales motion.</p>
+      </div>
+
+      <div class="plan-grid">
+        <article class="plan">
+          <div><h3>Starter</h3><p class="tl">For focused sales work</p></div>
+          <svg class="lanes" viewBox="0 0 300 72" preserveAspectRatio="none" aria-hidden="true">
+            <line class="rail" x1="0" y1="36" x2="300" y2="36"/>
+            <line class="flow" x1="0" y1="36" x2="300" y2="36" style="--d:2.6s"/>
+          </svg>
+          <div class="price"><span class="amt">$39</span><span class="per">/mo</span></div>
+          <a class="btn btn-ink" href="https://revispro.whop.site/invite" target="_blank" rel="noopener">Get started <span class="arr" aria-hidden="true">↗</span></a>
+        </article>
+
+        <article class="plan pop">
+          <span class="tag">Popular</span>
+          <div><h3>Growth</h3><p class="tl">For a growing pipeline</p></div>
+          <svg class="lanes" viewBox="0 0 300 72" preserveAspectRatio="none" aria-hidden="true">
+            <line class="rail" x1="0" y1="14" x2="300" y2="14"/><line class="rail" x1="0" y1="36" x2="300" y2="36"/><line class="rail" x1="0" y1="58" x2="300" y2="58"/>
+            <line class="flow" x1="0" y1="14" x2="300" y2="14" style="--d:2.2s"/>
+            <line class="flow" x1="0" y1="36" x2="300" y2="36" style="--d:3.1s;--dl:-.7s"/>
+            <line class="flow" x1="0" y1="58" x2="300" y2="58" style="--d:2.6s;--dl:-1.3s"/>
+          </svg>
+          <div class="price"><span class="amt">$79</span><span class="per">/mo</span></div>
+          <a class="btn btn-primary" href="https://revispro.whop.site/invite" target="_blank" rel="noopener">Get started <span class="arr" aria-hidden="true">↗</span></a>
+        </article>
+
+        <article class="plan">
+          <div><h3>Team</h3><p class="tl">For coordinated selling</p></div>
+          <svg class="lanes" viewBox="0 0 300 72" preserveAspectRatio="none" aria-hidden="true">
+            <line class="rail" x1="0" y1="8" x2="300" y2="8"/><line class="rail" x1="0" y1="22" x2="300" y2="22"/><line class="rail" x1="0" y1="36" x2="300" y2="36"/><line class="rail" x1="0" y1="50" x2="300" y2="50"/><line class="rail" x1="0" y1="64" x2="300" y2="64"/>
+            <line class="flow" x1="0" y1="8" x2="300" y2="8" style="--d:2.8s"/>
+            <line class="flow" x1="0" y1="22" x2="300" y2="22" style="--d:2.8s;--dl:-.28s"/>
+            <line class="flow" x1="0" y1="36" x2="300" y2="36" style="--d:2.8s;--dl:-.56s"/>
+            <line class="flow" x1="0" y1="50" x2="300" y2="50" style="--d:2.8s;--dl:-.84s"/>
+            <line class="flow" x1="0" y1="64" x2="300" y2="64" style="--d:2.8s;--dl:-1.12s"/>
+          </svg>
+          <div class="price"><span class="amt">$129</span><span class="per">/mo</span></div>
+          <a class="btn btn-ink" href="https://revispro.whop.site/invite" target="_blank" rel="noopener">Get started <span class="arr" aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+      <p class="fine">Prices are per month. See <a href="billing.html">billing details</a> and <a href="terms.html">terms</a>.</p>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="close" id="contact" data-tone="dark" aria-label="Get started">
+    <div class="in">
+      <p class="eyebrow">Get started</p>
+      <h2 class="h-close" id="closeH"><span class="ln">Make your next</span><span class="ln ln2">move count<span id="dotEnd">.</span></span></h2>
+      <div class="close-row">
+        <a class="btn btn-primary btn-big" id="closeBtn" href="https://revispro.whop.site/invite" target="_blank" rel="noopener">Get started with Revis Pro <span class="arr" aria-hidden="true">→</span></a>
+        <div class="reach">
+          <p>Explore the product or reach out directly.</p>
+          <div class="mail"><a id="mail-text" href="mailto:contact@revispro.com">contact@revispro.com</a><button type="button" class="copy" id="copy-email">Copy</button></div>
+          <span class="sr" aria-live="polite" id="copy-status"></span>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section contact-section" id="contact">
-      <div class="container contact-card">
+  <footer class="foot" id="foot" data-tone="dark">
+    <div class="in">
+      <div class="foot-in">
         <div>
-          <p class="eyebrow">Ready when you are</p>
-          <h2>Make your next move count.</h2>
-          <p>Explore the product or reach out directly. We would be glad to hear what your team is building.</p>
-          <p class="contact-meta"><strong>Revis Pro LLC</strong> · <a href="https://revispro.com/">revispro.com</a><br>Product: <a href="https://revispro.whop.site/invite">revispro.whop.site/invite</a><br>Commercial mailing address pending</p>
+          <a class="brand" href="#top"><span class="mark" aria-hidden="true"><svg class="mk" viewBox="0 0 64 64" aria-hidden="true"><g class="off"><circle cx="16" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="32" cy="8" r="3"/><circle cx="40" cy="8" r="3"/><circle cx="48" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><circle cx="24" cy="16" r="3"/><circle cx="32" cy="16" r="3"/><circle cx="40" cy="16" r="3"/><circle cx="48" cy="16" r="3"/><circle cx="16" cy="24" r="3"/><circle cx="24" cy="24" r="3"/><circle cx="32" cy="24" r="3"/><circle cx="40" cy="24" r="3"/><circle cx="48" cy="24" r="3"/><circle cx="16" cy="32" r="3"/><circle cx="24" cy="32" r="3"/><circle cx="32" cy="32" r="3"/><circle cx="40" cy="32" r="3"/><circle cx="48" cy="32" r="3"/><circle cx="16" cy="40" r="3"/><circle cx="24" cy="40" r="3"/><circle cx="32" cy="40" r="3"/><circle cx="40" cy="40" r="3"/><circle cx="48" cy="40" r="3"/><circle cx="16" cy="48" r="3"/><circle cx="24" cy="48" r="3"/><circle cx="32" cy="48" r="3"/><circle cx="40" cy="48" r="3"/><circle cx="48" cy="48" r="3"/><circle cx="16" cy="56" r="3"/><circle cx="24" cy="56" r="3"/><circle cx="32" cy="56" r="3"/><circle cx="40" cy="56" r="3"/><circle cx="48" cy="56" r="3"/></g><g class="lit"><circle cx="16" cy="8" r="3.4" style="--i:0"/><circle cx="16" cy="16" r="3.4" style="--i:1"/><circle cx="16" cy="24" r="3.4" style="--i:2"/><circle cx="16" cy="32" r="3.4" style="--i:3"/><circle cx="16" cy="40" r="3.4" style="--i:4"/><circle cx="16" cy="48" r="3.4" style="--i:5"/><circle cx="16" cy="56" r="3.4" style="--i:6"/><circle cx="24" cy="8" r="3.4" style="--i:7"/><circle cx="32" cy="8" r="3.4" style="--i:8"/><circle cx="40" cy="8" r="3.4" style="--i:9"/><circle cx="48" cy="16" r="3.4" style="--i:10"/><circle cx="48" cy="24" r="3.4" style="--i:11"/><circle cx="40" cy="32" r="3.4" style="--i:12"/><circle cx="32" cy="32" r="3.4" style="--i:13"/><circle cx="24" cy="32" r="3.4" style="--i:14"/><circle cx="32" cy="40" r="3.4" style="--i:15"/><circle cx="40" cy="48" r="3.4" style="--i:16"/></g><circle class="amb" cx="48" cy="56" r="4.4"/></svg></span><span>Revis Pro</span></a>
+          <p>Clean pipeline software for modern sales teams.</p>
         </div>
-        <div class="contact-actions">
-          <a class="button button-primary" href="https://revispro.whop.site/invite">Get started <span aria-hidden="true">↗</span></a>
-          <a class="contact-email" href="mailto:contact@revispro.com">contact@revispro.com</a>
-        </div>
+        <nav aria-label="Footer">
+          <a href="#product">Product</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="billing.html">Billing</a>
+          <a href="mailto:contact@revispro.com">Email contact</a>
+        </nav>
       </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-wrap">
-      <div><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">R</span><span>Revis Pro</span></a><p>Clean pipeline software for modern sales teams.</p></div>
-      <div class="footer-links"><a href="https://revispro.whop.site/invite">Product</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="billing.html">Billing</a><a href="mailto:contact@revispro.com">contact@revispro.com</a></div>
-      <p class="copyright">© Revis Pro LLC</p>
+      <div class="legal"><span>© Revis Pro LLC</span><span>Commercial mailing address pending</span></div>
     </div>
   </footer>
-  <script src="nav.js"></script>
+</main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const root = document.documentElement;
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const sstep = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const money = n => '$' + Math.round(n).toLocaleString('en-US');
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+  /* ---------- sample deals ---------- */
+  const deals = [
+    { id: 'nw', name: 'Northwind Labs', ini: 'NW', stage: 'discovery', amt: 42500, note: 'No activity · 16 days', risk: true },
+    { id: 'cf', name: 'Cobalt Freight', ini: 'CF', stage: 'discovery', amt: 31000, note: 'Discovery call done' },
+    { id: 'lr', name: 'Luma Robotics', ini: 'LR', stage: 'discovery', amt: 23000, note: 'Intro call booked' },
+    { id: 'kh', name: 'Kestrel Health', ini: 'KH', stage: 'proposal', amt: 67500, note: 'No next step', risk: true },
+    { id: 'as', name: 'Atlas Systems', ini: 'AS', stage: 'proposal', amt: 86000, note: 'Proposal sent Tue' },
+    { id: 'pa', name: 'Parity Analytics', ini: 'PA', stage: 'proposal', amt: 39000, note: 'Pricing reviewed' },
+    { id: 'ob', name: 'Oakline Build', ini: 'OB', stage: 'negotiation', amt: 33500, note: 'Close date moved twice', risk: true },
+    { id: 'mc', name: 'Meridian Cloud', ini: 'MC', stage: 'negotiation', amt: 128000, note: 'Redlines with legal' },
+    { id: 'vf', name: 'Vantage Fleet', ini: 'VF', stage: 'negotiation', amt: 49000, note: 'Security review' },
+    { id: 'hp', name: 'Harbor &amp; Pine', ini: 'HP', stage: 'commit', amt: 54000, note: 'Signing this week' },
+    { id: 'sr', name: 'Summit Rx', ini: 'SR', stage: 'commit', amt: 72000, note: 'Verbal yes' },
+  ];
+  const byId = Object.fromEntries(deals.map(d => [d.id, d]));
+  const ranked = [
+    ['kh', 'Set a next step: book the pricing review'],
+    ['mc', 'Answer legal’s redlines before Thursday'],
+    ['nw', 'Send a recap to restart a quiet deal'],
+    ['ob', 'Confirm a real close date with the buyer'],
+    ['as', 'Follow up on Tuesday’s proposal'],
+  ];
+  const rankMap = Object.fromEntries(ranked.map(([id, a], i) => [id, { i, a }]));
+
+  /* ---------- layouts for the four board states (600 × 440 board units) ---------- */
+  const CW = 132, CH = 84;
+  const LAY = [{}, {}, {}, {}];
+  const L0 = { nw: [30, 70, -9], as: [150, 60, 6], mc: [300, 92, -4], cf: [432, 64, 11], kh: [60, 190, 7], hp: [212, 172, -12], lr: [360, 208, 5], ob: [458, 182, -7], pa: [22, 312, -5], sr: [192, 300, 9], vf: [380, 320, -10] };
+  deals.forEach(d => { const [x, y, r] = L0[d.id]; LAY[0][d.id] = { x, y, w: CW, h: CH, r }; });
+  const cols = { discovery: ['nw', 'cf', 'lr'], proposal: ['kh', 'as', 'pa'], negotiation: ['ob', 'mc', 'vf'], commit: ['hp', 'sr'] };
+  const colX = { discovery: 12, proposal: 160, negotiation: 308, commit: 456 };
+  Object.entries(cols).forEach(([s, ids]) => ids.forEach((id, j) => { LAY[1][id] = { x: colX[s], y: 90 + j * 96, w: CW, h: CH, r: 0 }; }));
+  const topIds = ranked.map(r => r[0]);
+  topIds.forEach((id, i) => { LAY[2][id] = { x: 12, y: 60 + i * 62, w: 576, h: 54, r: 0 }; });
+  deals.filter(d => !topIds.includes(d.id)).forEach((d, k) => { LAY[2][d.id] = { x: 12 + k * 98, y: 394, w: 86, h: 34, r: 0 }; });
+  const barOrder = ['hp', 'sr', 'mc', 'vf', 'as', 'pa', 'cf', 'lr'];
+  const GAP = 3, scale = (576 - GAP * (barOrder.length - 1)) / 482000;
+  const groupStart = {};
+  let bx = 12;
+  barOrder.forEach(id => {
+    const d = byId[id], w = d.amt * scale;
+    if (groupStart[d.stage] === undefined) groupStart[d.stage] = bx;
+    LAY[3][id] = { x: bx, y: 156, w, h: 72, r: 0 };
+    bx += w + GAP;
+  });
+  ['nw', 'kh', 'ob'].forEach((id, i) => { LAY[3][id] = { x: 12 + i * 196, y: 326, w: 184, h: 48, r: 0 }; });
+
+  /* ---------- build cards ---------- */
+  const board = $('#board');
+  $$('.fc-leg', board).forEach(el => { el.style.left = groupStart[el.dataset.g] + 'px'; });
+  deals.forEach(d => {
+    const el = document.createElement('div');
+    const r = rankMap[d.id];
+    el.className = 'card' + (d.risk ? ' risk' : '') + (r ? ' top' : '');
+    el.dataset.stage = d.stage;
+    el.innerHTML =
+      `<div class="face f-card"><b class="nm">${d.name}</b><span class="am">${money(d.amt)}</span><span class="m-stage">${cap(d.stage)}</span><span class="m-note">${d.note}</span></div>` +
+      (r ? `<div class="face f-row"><span class="rk">${r.i + 1}</span><span class="rw"><b class="nm">${d.name}</b><span class="ac">${r.a}</span></span><span class="am">${money(d.amt)}</span></div>`
+         : `<div class="face f-chip"><b>${d.ini}</b><span>$${Math.round(d.amt / 1000)}k</span></div>`) +
+      (d.risk ? `<div class="face f-pill"><b class="nm">${d.name}</b><span class="am">${money(d.amt)}</span></div>` : '');
+    board.appendChild(el);
+    d.el = el;
+  });
+
+  /* ---------- elements ---------- */
+  const nav = $('#nav'), prog = $('#prog');
+  const hero = $('#top'), heroIn = $('#heroIn'), cue = $('#cue');
+  const floats = $$('.fl');
+  const story = $('#product'), stage = $('#stage'), fit = $('#fit');
+  const chaps = $$('.chap'), ticks = $$('.tick');
+  const fcval = $('#fcval');
+  const about = $('#about');
+  const fillEl = $('#fill');
+  const closeSec = $('#contact'), closeH = $('#closeH'), dotEnd = $('#dotEnd');
+  const sections = $$('[data-tone]');
+  const mqTracks = $$('.mq-track');
+  const cv = $('#field'), ctx = cv.getContext('2d');
+  const FIELD_ALPHA = { top: 1, product: .38, about: 0, plans: 0, contact: .95, foot: 0 };
+
+  /* ---------- story timing: four holds joined by three transitions ---------- */
+  const HOLD = .14, TRANS = (1 - 4 * HOLD) / 3;
+  const stageFloat = p => {
+    let x = p;
+    for (let i = 0; i < 3; i++) {
+      if (x < HOLD) return i;
+      x -= HOLD;
+      if (x < TRANS) return i + x / TRANS;
+      x -= TRANS;
+    }
+    return 3;
+  };
+
+  /* ---------- word fill ---------- */
+  let words = [], litCount = -1;
+  if (!RM) {
+    const txt = fillEl.textContent.trim().split(/\s+/);
+    fillEl.innerHTML = txt.map(w => `<span class="wd">${w}</span>`).join(' ');
+    words = $$('.wd', fillEl);
+    fillEl.classList.add('armed');
+  }
+
+  /* ---------- measurement (document offsets, refreshed on resize) ---------- */
+  const M = {};
+  let W = 0, H = 0, DPR = 1;
+  function measure() {
+    const sy = window.scrollY;
+    const box = el => { const r = el.getBoundingClientRect(); return { top: r.top + sy, h: r.height }; };
+    M.hero = box(hero); M.story = box(story); M.stageH = stage.offsetHeight;
+    M.about = box(about); M.fill = box(fillEl); M.close = box(closeSec);
+    M.secs = sections.map(s => Object.assign({ s }, box(s)));
+    M.max = Math.max(1, root.scrollHeight - innerHeight);
+    M.mqHalf = mqTracks.map(t => t.scrollWidth / 2);
+    board.style.transform = `scale(${fit.clientWidth / 600})`;
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    M.wideClose = innerWidth >= 760 && !RM;
+    if (!M.wideClose) closeH.style.fontStretch = '';
+  }
+
+  /* ---------- per-frame updates ---------- */
+  let curSec = null, fieldTarget = 1, fieldZeroAt = 0;
+  let morph = RM ? 1 : 0, conv = 0, fx = 0, fy = 0;
+  let lastState = -1, lastFc = '';
+
+  function updateNav(y) {
+    prog.style.transform = `scaleX(${clamp(y / M.max).toFixed(4)})`;
+    nav.classList.toggle('scrolled', y > 24);
+  }
+  function updateTone(y, now) {
+    const mid = y + innerHeight * .5;
+    for (const sec of M.secs) {
+      if (sec.top <= mid && sec.top + sec.h > mid) {
+        if (sec.s !== curSec) {
+          curSec = sec.s;
+          if (root.dataset.tone !== sec.s.dataset.tone) root.dataset.tone = sec.s.dataset.tone;
+          const a = FIELD_ALPHA[sec.s.id] ?? 0;
+          if (a === 0 && fieldTarget !== 0) fieldZeroAt = now;
+          fieldTarget = a;
+          cv.style.opacity = a;
+        }
+        break;
+      }
+    }
+  }
+  function updateHero(y) {
+    const hp = clamp(y / (M.hero.h * .85));
+    morph = RM ? 1 : sstep(.02, .85, hp);
+    if (RM || y > M.hero.h * 1.3) return;
+    heroIn.style.transform = `translate3d(0,${(y * .16).toFixed(1)}px,0)`;
+    heroIn.style.opacity = (1 - hp * .55).toFixed(3);
+    floats.forEach(f => { f.style.transform = `translate3d(0,${(-y * f.dataset.par).toFixed(1)}px,0)`; });
+    cue.style.opacity = clamp(1 - hp * 5).toFixed(3);
+  }
+  function updateBoard(y, force) {
+    const top = M.story.top - y;
+    if (!force && (top > innerHeight + 60 || top + M.story.h < -60)) return;
+    const total = M.story.h - M.stageH;
+    const p = total > 0 ? clamp(-top / total) : 0;
+    let sf = stageFloat(p);
+    if (RM) sf = Math.round(sf);
+    const a = Math.min(2, Math.floor(sf)), f = sf - a;
+    deals.forEach((d, i) => {
+      const A = LAY[a][d.id], B = LAY[a + 1][d.id];
+      const t = ease(clamp((f - i * .022) / .78));
+      const x = lerp(A.x, B.x, t), yy = lerp(A.y, B.y, t);
+      const w = lerp(A.w, B.w, t), h = lerp(A.h, B.h, t), r = lerp(A.r, B.r, t);
+      d.el.style.transform = `translate(${x.toFixed(1)}px,${yy.toFixed(1)}px) rotate(${r.toFixed(2)}deg)`;
+      d.el.style.width = w.toFixed(1) + 'px';
+      d.el.style.height = h.toFixed(1) + 'px';
+    });
+    const st = Math.round(sf);
+    if (st !== lastState) {
+      lastState = st;
+      board.dataset.state = st;
+      chaps.forEach(c => c.classList.toggle('on', +c.dataset.c === st));
+      ticks.forEach(tk => {
+        const n = +tk.dataset.t;
+        tk.classList.toggle('on', n <= st);
+        if (n === st) tk.setAttribute('aria-current', 'step'); else tk.removeAttribute('aria-current');
+      });
+    }
+    const fc = money(482000 * easeOut(clamp(sf - 2)));
+    if (fc !== lastFc) { lastFc = fc; fcval.textContent = fc; }
+  }
+  function updateMarquee(y, t) {
+    const top = M.about.top - y;
+    if (top > innerHeight || top + M.about.h < 0) return;
+    const base = y * .42 + t * 26;
+    mqTracks.forEach((tr, i) => {
+      const hw = M.mqHalf[i] || 1;
+      const off = base % hw;
+      tr.style.transform = `translate3d(${(i % 2 ? off - hw : -off).toFixed(1)}px,0,0)`;
+    });
+  }
+  function updateFill(y) {
+    if (!words.length) return;
+    const top = M.fill.top - y;
+    const q = clamp((innerHeight * .88 - top) / (M.fill.h + innerHeight * .38));
+    const n = Math.round(q * words.length);
+    if (n === litCount) return;
+    litCount = n;
+    words.forEach((w, i) => w.classList.toggle('lit', i < n));
+  }
+  function updateClose(y) {
+    const top = M.close.top - y;
+    const c = clamp(1 - (top - innerHeight * .15) / (innerHeight * .7));
+    conv = RM ? 0 : c;
+    if (M.wideClose) closeH.style.fontStretch = (62 + 38 * easeOut(c)).toFixed(1) + '%';
+  }
+  // Streams converge on the full stop of "move count." — read before any writes in the frame.
+  function readFocal(y) {
+    if (M.close.top - y > innerHeight * 1.2) return;
+    const r = dotEnd.getBoundingClientRect();
+    fx = r.left + r.width * .5;
+    fy = r.top + r.height * .72;
+  }
+
+  /* ---------- the field: deals as streaks, noise → lanes → converge ---------- */
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const LANES = 7;
+  const N = innerWidth < 700 ? 80 : 160;
+  const parts = Array.from({ length: N }, (_, i) => ({
+    hx: rnd(), hy: .05 + rnd() * .9, ph: rnd() * Math.PI * 2, lane: i % LANES,
+    u: rnd(), spd: .045 + rnd() * .07, amber: rnd() < .1, a: .3 + rnd() * .5, st: rnd(),
+  }));
+  const laneY = l => H * (.18 + .72 * (l + .5) / LANES);
+  let lastT = 0;
+  function drawField(t, now) {
+    const dt = lastT ? Math.min(.05, t - lastT) : 0;
+    lastT = t;
+    if (fieldTarget === 0 && now - fieldZeroAt > 900) return;
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineCap = 'round';
+    for (const p of parts) {
+      p.u += p.spd * dt * (p.amber ? .45 : 1) * (1 + conv * .9);
+      if (p.u > 1) p.u -= 1;
+      const hd = p.ph + Math.sin(t * .21 + p.ph) * .9;
+      const cx = (p.hx + .045 * Math.sin(t * .23 + p.ph) + .02 * Math.sin(t * .67 + p.ph * 1.7)) * W;
+      const cy = (p.hy + .045 * Math.cos(t * .19 + p.ph * 1.3) + .02 * Math.cos(t * .59 + p.ph)) * H;
+      const lx = -60 + p.u * (W + 120);
+      let ly = laneY(p.lane) + Math.sin(p.u * 9 + p.ph) * 2.5;
+      let fade = 1;
+      if (conv > 0) {
+        const k = conv * sstep(fx * .1, fx, lx);
+        ly += (fy - ly) * k;
+        fade = 1 - conv * sstep(fx - 20, fx + 30, lx);
+      }
+      const mi = ease(clamp((morph - p.st * .35) / .65));
+      const x = lerp(cx, lx, mi), y = lerp(cy, ly, mi);
+      let dx = lerp(Math.cos(hd), 1, mi), dy = lerp(Math.sin(hd), 0, mi);
+      const dl = Math.hypot(dx, dy) || 1; dx /= dl; dy /= dl;
+      const len = 6 + 10 * mi;
+      const edge = sstep(0, .03, p.u) * (1 - sstep(.97, 1, p.u));
+      const a = p.a * fade * lerp(1, edge, mi);
+      if (a < .02) continue;
+      ctx.strokeStyle = p.amber ? `rgba(255,178,63,${a.toFixed(3)})` : `rgba(148,141,255,${a.toFixed(3)})`;
+      ctx.lineWidth = p.amber ? 2.6 : 2;
+      ctx.beginPath();
+      ctx.moveTo(x - dx * len, y - dy * len);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+  }
+
+  /* ---------- loop ---------- */
+  function render(ts, force) {
+    const now = ts || performance.now();
+    const t = now / 1000;
+    const y = window.scrollY;
+    readFocal(y);
+    updateNav(y); updateTone(y, now); updateHero(y); updateBoard(y, force);
+    updateMarquee(y, t); updateFill(y); updateClose(y);
+    if (!RM) drawField(t, now);
+  }
+  let queued = false;
+  const requestRender = () => { if (queued) return; queued = true; requestAnimationFrame(ts => { queued = false; render(ts); }); };
+
+  measure();
+  render(performance.now(), true);
+  if (RM) {
+    // one static frame of tidy lanes, redrawn only on resize
+    drawField(0, 0);
+    addEventListener('scroll', requestRender, { passive: true });
+  } else {
+    const loop = ts => { render(ts); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+  let rs = 0;
+  const remeasure = () => { cancelAnimationFrame(rs); rs = requestAnimationFrame(() => { measure(); render(performance.now(), true); if (RM) drawField(0, 0); }); };
+  addEventListener('resize', remeasure);
+  if (window.ResizeObserver) new ResizeObserver(remeasure).observe(document.body);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+
+  /* ---------- story step buttons ---------- */
+  ticks.forEach(tk => tk.addEventListener('click', () => {
+    const i = +tk.dataset.t;
+    const p = i * (HOLD + TRANS) + HOLD / 2;
+    const total = M.story.h - M.stageH;
+    window.scrollTo({ top: M.story.top + p * total, behavior: RM ? 'auto' : 'smooth' });
+  }));
+
+  /* ---------- copy email ---------- */
+  const copyBtn = $('#copy-email'), copyStatus = $('#copy-status');
+  const flash = msg => { copyBtn.textContent = msg; copyStatus.textContent = msg === 'Copy' ? '' : msg; clearTimeout(flash.t); flash.t = setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1800); };
+  const selectMail = () => {
+    const r = document.createRange(); r.selectNodeContents($('#mail-text'));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    flash('Selected');
+  };
+  copyBtn.addEventListener('click', () => {
+    try {
+      navigator.clipboard.writeText('contact@revispro.com').then(() => flash('Copied'), selectMail);
+    } catch (e) { selectMail(); }
+  });
+})();
+</script>
 </body>
 </html>
