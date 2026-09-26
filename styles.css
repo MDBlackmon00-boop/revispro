@@ -42,9 +42,9 @@ nav.legal-subnav a{display:inline}
 @media(max-width:600px){
   .nav-cta-mobile{display:inline-flex;align-items:center;min-height:44px;margin-left:auto}
   .nav-toggle{display:inline-flex}
-  .nav-cta-desktop,.nav-open #site-nav .nav-cta-desktop{display:none}
+  .nav-cta-desktop{display:none}
   #site-nav{display:none}
   .nav-open #site-nav{display:flex;position:absolute;z-index:3;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;margin:0;padding:6px 0 12px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 16px 32px rgba(38,53,92,.08)}
-  .nav-open #site-nav a:not(.nav-cta-desktop){display:flex;align-items:center;min-height:44px}
+  .nav-open #site-nav a,.nav-open #site-nav .nav-cta-desktop{display:flex;align-items:center;min-height:44px}
 }
 @media(prefers-reduced-motion:reduce){.nav-toggle-bars span{transition:none}}
